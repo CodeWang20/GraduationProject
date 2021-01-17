@@ -1,0 +1,15 @@
+package top.rainbowcat.service;
+
+import top.rainbowcat.entity.User;
+
+
+public interface UserService {
+
+    User login(User user);
+
+    void register(User user);
+
+    User findByUserName(String username);
+
+    void setLastLogin(User user);
+}
