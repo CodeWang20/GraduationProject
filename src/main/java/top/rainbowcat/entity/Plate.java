@@ -12,16 +12,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class User implements Serializable {
-
+public class Plate implements Serializable {
     private int id;
-    private String username;
-    private String sex;
-    private String email;
-    private String telephone;
+    private String name;
     private Date created;
-    private Date last_login;
-    private int status;
-    private String password;
-    private String salt;
+    private Date lastUpdate;
+    private int deleted;
+
 }

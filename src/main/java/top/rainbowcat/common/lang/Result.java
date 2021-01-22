@@ -17,7 +17,7 @@ public class Result implements Serializable {
      * */
 
     public static Result succ(Object data){
-        return succ(200, "操作成功！", data);
+        return succ(200, "", data);
     }
 
     public static Result succ(String msg, Object data){

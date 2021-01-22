@@ -4,6 +4,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.rainbowcat.common.lang.Author;
 import top.rainbowcat.entity.User;
 import top.rainbowcat.mapper.UserMapper;
 import top.rainbowcat.service.UserService;
@@ -44,5 +45,11 @@ public class UserServiceImpl implements UserService {
     public void setLastLogin(User user) {
         userMapper.setLastLogin(user);
     }
+
+    @Override
+    public User getUserById(int id) {
+        return userMapper.getUserById(id);
+    }
+
 
 }

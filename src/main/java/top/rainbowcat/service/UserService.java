@@ -1,5 +1,6 @@
 package top.rainbowcat.service;
 
+import top.rainbowcat.common.lang.Author;
 import top.rainbowcat.entity.User;
 
 
@@ -12,4 +13,6 @@ public interface UserService {
     User findByUserName(String username);
 
     void setLastLogin(User user);
+
+    User getUserById(int id);
 }

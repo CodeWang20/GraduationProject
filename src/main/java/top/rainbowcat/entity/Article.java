@@ -12,16 +12,18 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class User implements Serializable {
-
+public class Article implements Serializable {
     private int id;
-    private String username;
-    private String sex;
-    private String email;
-    private String telephone;
+    private String title;
+    private String summary;
+    private String content;
+    private String picture;
+    private int userId;
+    private int plateId;
     private Date created;
-    private Date last_login;
-    private int status;
-    private String password;
-    private String salt;
+    private int nowView;
+    private int yesView;
+    private int likes;
+    private int collect;
+    private int deleted;
 }

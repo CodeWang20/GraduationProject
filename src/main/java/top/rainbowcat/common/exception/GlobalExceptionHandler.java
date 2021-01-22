@@ -2,6 +2,7 @@ package top.rainbowcat.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -28,6 +29,15 @@ public class GlobalExceptionHandler {
         return Result.fail(401, "未经授权的操作！", null);
     }
 
+    /**
+     * 数据完整性违规异常
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    public Result handler(DataIntegrityViolationException e){
+        log.error("Mysql语句异常------------------->", e);
+        return Result.fail("请求异常！");
+    }
 
     /**
      * @Validated 校验错误异常处理

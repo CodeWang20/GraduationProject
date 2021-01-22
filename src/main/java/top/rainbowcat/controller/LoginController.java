@@ -3,7 +3,6 @@ package top.rainbowcat.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.rainbowcat.common.dto.LoginDto;
 import top.rainbowcat.common.lang.Result;
-import top.rainbowcat.common.lang.UserProfile;
+import top.rainbowcat.common.lang.UserAccount;
 import top.rainbowcat.entity.User;
 import top.rainbowcat.service.UserService;
 import top.rainbowcat.utils.JwtUtils;
@@ -36,6 +35,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public Result login(@RequestBody LoginDto loginDto, HttpServletResponse response){
+        log.info("用户请求------->>{}", loginDto);
         User user = userService.findByUserName(loginDto.getUsername());
         Assert.notNull(user, "用户不存在！");
         Md5Hash md5Hash = new Md5Hash(loginDto.getPassword(), user.getSalt(), 1024);
@@ -52,13 +52,16 @@ public class LoginController {
         //将jwt设置进header,方便后面对jwt进行延期
         response.setHeader("Authorization", jwt);
         response.setHeader("Access-Control-Expose-Headers", "Authorization");
-        UserProfile userProfile = new UserProfile();
-        BeanUtils.copyProperties(user, userProfile);
-        return Result.succ(userProfile);
+        UserAccount userAccount = new UserAccount();
+        BeanUtils.copyProperties(user, userAccount);
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("user", userAccount);
+        map1.put("token", jwt);
+        return Result.succ("登录成功！", map1);
     }
 
     @PostMapping("/register")
-    public Result register(User user){
+    public Result register(@RequestBody User user){
         User u = userService.findByUserName(user.getUsername());
         if (u != null){
             return Result.fail("用户已存在！" );

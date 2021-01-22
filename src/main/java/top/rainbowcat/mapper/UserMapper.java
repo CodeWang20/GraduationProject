@@ -1,5 +1,6 @@
 package top.rainbowcat.mapper;
 
+import top.rainbowcat.common.lang.Author;
 import top.rainbowcat.entity.User;
 
 public interface UserMapper {
@@ -11,4 +12,6 @@ public interface UserMapper {
     User findByUserName(String username);
 
     void setLastLogin(User user);
+
+    User getUserById(int id);
 }

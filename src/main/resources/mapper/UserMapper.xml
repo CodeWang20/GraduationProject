@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.rainbowcat.mapper.UserMapper">
     <insert id="save" parameterType="top.rainbowcat.entity.User" keyProperty="id">
-        insert into user (username, name, sex, age, email, telephone, nickname, created, password, salt)
-        values(#{username},#{name}, #{sex}, #{age}, #{email}, #{telephone}, #{nickname}, #{created} , #{password}, #{salt})
+        insert into user (username, sex, email, telephone, created, password, salt)
+        values(#{username}, #{sex}, #{email}, #{telephone}, #{created} , #{password}, #{salt})
     </insert>
 
     <update id="setLastLogin" parameterType="top.rainbowcat.entity.User">
@@ -15,5 +15,9 @@
     </select>
     <select id="findByUserName" parameterType="string" resultType="top.rainbowcat.entity.User">
         select * from user where username = #{username}
+    </select>
+
+    <select id="getUserById" parameterType="int" resultType="top.rainbowcat.entity.User">
+        select * from user where id = #{id}
     </select>
 </mapper>

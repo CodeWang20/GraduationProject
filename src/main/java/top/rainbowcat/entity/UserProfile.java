@@ -1,4 +1,4 @@
-package top.rainbowcat.common.lang;
+package top.rainbowcat.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,15 +14,11 @@ import java.util.Date;
 @Accessors(chain = true)
 public class UserProfile implements Serializable {
 
-    private Long id;
+    private int id;
     private String username;
-    private String name;
     private String sex;
-    private int age;
     private String email;
     private String telephone;
-    private String avatar;
-    private String nickname;
     private Date created;
     private Date last_login;
     private int status;

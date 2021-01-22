@@ -8,7 +8,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import top.rainbowcat.common.lang.UserProfile;
+import top.rainbowcat.common.lang.UserAccount;
 import top.rainbowcat.entity.User;
 import top.rainbowcat.service.UserService;
 import top.rainbowcat.shiro.JwtToken;
@@ -52,8 +52,8 @@ public class LoginRealm extends AuthorizingRealm {
         if (user == null){
             throw new UnknownAccountException("账户不存在！");
         }
-        UserProfile profile = new UserProfile();
-        BeanUtil.copyProperties(user, profile);
-        return new SimpleAuthenticationInfo(profile, jwt.getCredentials(), this.getName());
+        UserAccount userAccount = new UserAccount();
+        BeanUtil.copyProperties(user, userAccount);
+        return new SimpleAuthenticationInfo(userAccount, jwt.getCredentials(), this.getName());
     }
 }

@@ -1,4 +1,4 @@
-package top.rainbowcat.entity;
+package top.rainbowcat.common.lang;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class User implements Serializable {
+public class UserAccount implements Serializable {
 
     private int id;
     private String username;
@@ -22,6 +22,4 @@ public class User implements Serializable {
     private Date created;
     private Date last_login;
     private int status;
-    private String password;
-    private String salt;
 }
