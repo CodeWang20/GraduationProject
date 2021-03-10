@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class Article implements Serializable {
+
     private int id;
     private String title;
     private String summary;
@@ -21,6 +22,7 @@ public class Article implements Serializable {
     private int userId;
     private int plateId;
     private Date created;
+    private Date lastUpdate;
     private int nowView;
     private int yesView;
     private int likes;

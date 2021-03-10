@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("/authorInfo")
     public Result authorInfoByUserId(int id){
         Author author = new Author();
-        User user = userService.getUserById(id);
+        User user = userService.getAuthorInfoById(id);
         author.setId(user.getId());
 
         return null;

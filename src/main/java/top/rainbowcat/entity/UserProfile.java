@@ -15,11 +15,11 @@ import java.util.Date;
 public class UserProfile implements Serializable {
 
     private int id;
-    private String username;
+    private String name;
+    private String nickname;
     private String sex;
+    private String avatar;
     private String email;
     private String telephone;
-    private Date created;
-    private Date last_login;
-    private int status;
+    private String introduction;
 }

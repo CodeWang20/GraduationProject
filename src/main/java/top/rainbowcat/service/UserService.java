@@ -14,5 +14,7 @@ public interface UserService {
 
     void setLastLogin(User user);
 
-    User getUserById(int id);
+    User getUserInfoById(int id);
+
+    User getAuthorInfoById(int id);
 }

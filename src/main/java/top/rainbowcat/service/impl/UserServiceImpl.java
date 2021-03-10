@@ -47,8 +47,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int id) {
-        return userMapper.getUserById(id);
+    public User getAuthorInfoById(int id) {
+        return userMapper.getAuthorInfoById(id);
+    }
+
+    @Override
+    public User getUserInfoById(int id) {
+        return userMapper.getUserInfoById(id);
     }
 
 

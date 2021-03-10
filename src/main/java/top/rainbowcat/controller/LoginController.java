@@ -18,6 +18,7 @@ import top.rainbowcat.common.lang.UserAccount;
 import top.rainbowcat.entity.User;
 import top.rainbowcat.service.UserService;
 import top.rainbowcat.utils.JwtUtils;
+import top.rainbowcat.utils.SystemDateUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -35,7 +36,6 @@ public class LoginController {
 
     @PostMapping("/login")
     public Result login(@RequestBody LoginDto loginDto, HttpServletResponse response){
-        log.info("用户请求------->>{}", loginDto);
         User user = userService.findByUserName(loginDto.getUsername());
         Assert.notNull(user, "用户不存在！");
         Md5Hash md5Hash = new Md5Hash(loginDto.getPassword(), user.getSalt(), 1024);
@@ -43,7 +43,7 @@ public class LoginController {
         if (!user.getPassword().equals(md5Hash.toHex())){
             return Result.fail("密码错误！");
         }
-        user.setLast_login(new Date());
+        user.setLast_login(SystemDateUtils.getDaDate());
         userService.setLastLogin(user);
 
         HashMap<String, Object> map = new HashMap<>();

@@ -2,6 +2,8 @@ package top.rainbowcat.mapper;
 
 import top.rainbowcat.entity.Collect;
 
+import java.util.List;
+
 public interface CollectMapper {
     void add(Collect collect);
 
@@ -10,4 +12,8 @@ public interface CollectMapper {
     Collect getByUserIdAndArticleId(Collect collect);
 
     int getCollections(int articleId);
+
+    List<Collect> collection(int userId, int favId);
+
+    List<Collect> getCollectionsByFavIdAndUserId(int favId, int userId);
 }

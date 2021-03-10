@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.rainbowcat.mapper.FavoritesMapper">
+
+    <insert id="add" parameterType="top.rainbowcat.entity.Favorites">
+        insert into favorites (type, visibility) values (#{type}, #{visibility});
+    </insert>
+    <update parameterType="int" id="updateVisibility">
+        update favorites set visibility = 0 where id = #{id}
+    </update>
+    <delete parameterType="int" id="delFavorites">
+        delete from favorites where id = #{id}
+    </delete>
+    <select id="getFavByUserId" parameterType="int" resultType="top.rainbowcat.entity.Favorites">
+        select * from favorites where user_id = #{userId};
+    </select>
+</mapper>

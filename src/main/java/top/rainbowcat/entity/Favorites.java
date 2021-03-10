@@ -12,11 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class Collect implements Serializable {
+public class Favorites implements Serializable {
     private int id;
-    private int userId;
-    private int articleId;
-    private int favId;
+    private String type;
+    private int visibility;
 
-    private Article article;
+    private List<Article> articles;
 }

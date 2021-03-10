@@ -2,6 +2,8 @@ package top.rainbowcat.service;
 
 import top.rainbowcat.entity.Collect;
 
+import java.util.List;
+
 public interface CollectService {
     /**
      * 添加收藏文章
@@ -18,6 +20,12 @@ public interface CollectService {
      */
     Collect isCollected(Collect collect);
 
-
+    /**
+     * 根据文章id获取收藏数量
+     */
     int getCollections(int articleId);
+
+    List<Collect> collection(int userId, int favId);
+
+    List<Collect> getCollectionsByFavIdAndUserId(int id, int userId);
 }

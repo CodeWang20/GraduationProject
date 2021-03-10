@@ -14,4 +14,11 @@ public interface ArticleService {
     void addViews(int id);
 
     void addArticle(Article article);
+
+    List<Article> selfBlogsList(int userId, int currentPage, int pageSize);
+    int selfBlogsCount(int userId);
+
+    void deleteBlog(int id);
+
+    void updateArticle(Article article);
 }

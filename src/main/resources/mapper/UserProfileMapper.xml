@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.rainbowcat.mapper.UserProfileMapper">
+
+    <!--更新用户信息-->
+    <update id="updateProfile" parameterType="top.rainbowcat.entity.UserProfile">
+        update user_profile
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone},
+            </if>
+            <if test="introduction != null and introduction != ''">
+                introduction = #{introduction},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="getUserProfileById" parameterType="int" resultType="top.rainbowcat.entity.UserProfile">
+        select * from user_profile where id = #{id};
+    </select>
+</mapper>

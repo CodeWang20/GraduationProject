@@ -3,7 +3,7 @@
 <mapper namespace="top.rainbowcat.mapper.CollectMapper">
 
     <insert id="add" parameterType="top.rainbowcat.entity.Collect" keyProperty="id">
-        insert into collect (user_id, article_id, created) values (#{userId}, #{articleId}, #{created});
+        insert into collect (user_id, article_id) values (#{userId}, #{articleId});
     </insert>
     <delete id="delete" parameterType="top.rainbowcat.entity.Collect">
         delete from collect where user_id = #{userId} and article_id = #{articleId}
@@ -13,5 +13,11 @@
     </select>
     <select id="getCollections" parameterType="int" resultType="java.lang.Integer">
         select count(*) from collect where article_id = #{articleId}
+    </select>
+    <select id="collection" parameterType="int" resultType="top.rainbowcat.entity.Collect">
+        select * from collect where user_id = #{userId} and fav_id = #{favId};
+    </select>
+    <select id="getCollectionsByFavIdAndUserId" resultType="top.rainbowcat.entity.Collect">
+        select * from collect where fav_id = #{favId} and user_id = #{userId};
     </select>
 </mapper>
