@@ -27,12 +27,27 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
-    public void visibility(int id) {
-        favoritesMapper.updateVisibility(id);
+    public void visibility(Favorites favorites) {
+        favoritesMapper.updateVisibility(favorites);
     }
 
     @Override
     public List<Favorites> getFavByUserId(int userId) {
         return favoritesMapper.getFavByUserId(userId);
+    }
+
+    @Override
+    public Favorites isExist(String type) {
+        return favoritesMapper.getFavByType(type);
+    }
+
+    @Override
+    public Favorites getFavByFavId(int favId) {
+        return favoritesMapper.getFavByFavId(favId);
+    }
+
+    @Override
+    public void updateType(Favorites favorites) {
+        favoritesMapper.updateType(favorites);
     }
 }

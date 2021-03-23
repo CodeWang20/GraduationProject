@@ -3,8 +3,7 @@
 <mapper namespace="top.rainbowcat.mapper.UserMapper">
     <!--用户注册-->
     <insert id="save" parameterType="top.rainbowcat.entity.User" keyProperty="id">
-        insert into user (username, created, password, salt)
-        values(#{username}, #{created} , #{password}, #{salt})
+        insert into user (username, created, password, salt) values(#{username}, #{created} , #{password}, #{salt})
     </insert>
     <!--更新上次登录时间-->
     <update id="setLastLogin" parameterType="top.rainbowcat.entity.User">

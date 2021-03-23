@@ -28,4 +28,15 @@ public interface CollectService {
     List<Collect> collection(int userId, int favId);
 
     List<Collect> getCollectionsByFavIdAndUserId(int id, int userId);
+
+    /**
+     * 查询fav_id
+     * @param userId
+     */
+    List<Collect> getFavIdByUserId(int userId);
+
+    /**
+     * 将文章移入默认收藏夹
+     */
+    void changeFavId(int favId);
 }

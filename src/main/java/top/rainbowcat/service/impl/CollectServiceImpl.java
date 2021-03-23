@@ -45,4 +45,14 @@ public class CollectServiceImpl implements CollectService {
     public List<Collect> getCollectionsByFavIdAndUserId(int favId, int userId) {
         return collectMapper.getCollectionsByFavIdAndUserId(favId, userId);
     }
+
+    @Override
+    public List<Collect> getFavIdByUserId(int userId) {
+        return collectMapper.getFavIdByUserId(userId);
+    }
+
+    @Override
+    public void changeFavId(int favId) {
+        collectMapper.changeFavId(favId);
+    }
 }

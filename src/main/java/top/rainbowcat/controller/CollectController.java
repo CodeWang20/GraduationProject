@@ -65,7 +65,6 @@ public class CollectController {
     public Result cancelCollect(Collect collect){
         try {
             collectService.cancelCollect(collect);
-
             return Result.succ("取消收藏成功！", null);
         }catch (Exception e){
             e.printStackTrace();

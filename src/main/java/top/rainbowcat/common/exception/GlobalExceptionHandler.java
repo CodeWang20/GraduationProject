@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.rainbowcat.common.lang.Result;
@@ -69,5 +71,12 @@ public class GlobalExceptionHandler {
     public Result handler(RuntimeException e){
         log.error("运行时异常------------------->", e);
         return Result.fail(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = HttpMessageNotReadableException.class)
+    public Result handler(HttpMessageNotReadableException e){
+        log.error("Http消息不可读异常------------------->", e);
+        return Result.fail("非法请求参数！");
     }
 }

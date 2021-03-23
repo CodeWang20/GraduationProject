@@ -3,7 +3,7 @@
 <mapper namespace="top.rainbowcat.mapper.CollectMapper">
 
     <insert id="add" parameterType="top.rainbowcat.entity.Collect" keyProperty="id">
-        insert into collect (user_id, article_id) values (#{userId}, #{articleId});
+        insert into collect (user_id, article_id, fav_id) values (#{userId}, #{articleId}, #{favId});
     </insert>
     <delete id="delete" parameterType="top.rainbowcat.entity.Collect">
         delete from collect where user_id = #{userId} and article_id = #{articleId}
@@ -20,4 +20,10 @@
     <select id="getCollectionsByFavIdAndUserId" resultType="top.rainbowcat.entity.Collect">
         select * from collect where fav_id = #{favId} and user_id = #{userId};
     </select>
+    <select id="getFavIdByUserId" parameterType="int" resultType="top.rainbowcat.entity.Collect">
+        select * from collect where user_id = #{userId} group by fav_id;
+    </select>
+    <update id="changeFavId" parameterType="int">
+        update collect set fav_id = 1 where fav_id = #{favId};
+    </update>
 </mapper>

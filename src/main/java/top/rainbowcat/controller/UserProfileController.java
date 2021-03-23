@@ -1,19 +1,13 @@
 package top.rainbowcat.controller;
 
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.rainbowcat.common.lang.Author;
 import top.rainbowcat.common.lang.Result;
-import top.rainbowcat.common.lang.UserAccount;
-import top.rainbowcat.entity.User;
 import top.rainbowcat.entity.UserProfile;
 import top.rainbowcat.service.UserProfileService;
-import top.rainbowcat.service.UserService;
 
 
 @RestController
@@ -32,13 +26,30 @@ public class UserProfileController {
         return Result.fail("");
     }
 
+    /**
+     * 获取登录用户的信息
+     */
     @RequestMapping("/userProfile")
     public Result userProfile(int id){
         try {
             UserProfile userProfile = userProfileService.getUserProfileById(id);
+            System.out.println(userProfile);
             return Result.succ("", userProfile);
         }catch (Exception e){
             throw e;
         }
     }
+
+    /**
+     * 获取文章作者的信息
+     */
+//    @RequestMapping("/authorProfile")
+//    public Result authorProfile(int userId){
+//        try {
+//            UserProfile userProfile = userProfileService.getAuthorProfileById(userId);
+//            return Result.succ("", userProfile);
+//        }catch (Exception e){
+//            throw e;
+//        }
+//    }
 }

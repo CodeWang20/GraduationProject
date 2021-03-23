@@ -40,7 +40,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!--环境依赖-->
         <dependency>
             <groupId>mysql</groupId>

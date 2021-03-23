@@ -6,4 +6,6 @@ public interface UserProfileService {
     int updateProfile(UserProfile userProfile);
 
     UserProfile getUserProfileById(int id);
+
+//    UserProfile getAuthorProfileById(int id);
 }

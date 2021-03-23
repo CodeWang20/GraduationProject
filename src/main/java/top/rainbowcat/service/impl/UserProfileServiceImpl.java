@@ -23,4 +23,9 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProfile getUserProfileById(int id) {
         return userProfileMapper.getUserProfileById(id);
     }
+
+//    @Override
+//    public UserProfile getAuthorProfileById(int id) {
+//        return userProfileMapper.getAuthorProfileById(id);
+//    }
 }
