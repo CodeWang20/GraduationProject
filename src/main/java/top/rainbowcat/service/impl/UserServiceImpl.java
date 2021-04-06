@@ -1,10 +1,12 @@
 package top.rainbowcat.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.rainbowcat.common.lang.Author;
 import top.rainbowcat.entity.User;
 import top.rainbowcat.mapper.UserMapper;
 import top.rainbowcat.service.UserService;
@@ -12,17 +14,15 @@ import top.rainbowcat.utils.SaltUtil;
 
 import java.util.Date;
 
+/**
+ * @author wangxiao
+ */
 @Transactional
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
     private UserMapper userMapper;
-
-    @Override
-    public User login(User user) {
-        return userMapper.login(user);
-    }
 
     @Override
     public void register(User user) {
@@ -31,30 +31,23 @@ public class UserServiceImpl implements UserService {
         user.setSalt(salt);
         Md5Hash md5Hash = new Md5Hash(user.getPassword(), salt, 1024);
         user.setPassword(md5Hash.toHex());
-        user.setCreated(new Date());
-        System.out.println("最终要存入数据库的user----------------->>" + user);
-        userMapper.save(user);
+        userMapper.insert(user);
     }
 
     @Override
     public User findByUserName(String username) {
-        return userMapper.findByUserName(username);
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(User::getUsername, username);
+        return userMapper.selectOne(wrapper);
     }
 
     @Override
-    public void setLastLogin(User user) {
-        userMapper.setLastLogin(user);
+    public void updateLastLogin(User user) {
+        UpdateWrapper<User> wrapper = new UpdateWrapper<>();
+        wrapper.lambda()
+                .set(User::getLastLogin, new Date())
+                .eq(User::getUsername,user.getUsername());
+        userMapper.update(user, wrapper);
     }
-
-    @Override
-    public User getAuthorInfoById(int id) {
-        return userMapper.getAuthorInfoById(id);
-    }
-
-    @Override
-    public User getUserInfoById(int id) {
-        return userMapper.getUserInfoById(id);
-    }
-
 
 }

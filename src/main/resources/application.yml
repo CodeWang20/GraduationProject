@@ -29,12 +29,22 @@ spring:
       allow_single_quotes: true
 
 
-mybatis:
+mybatis-plus:
   type-aliases-package: top.rainbowcat.entity
   mapper-locations: classpath:/mapper/*.xml
   configuration:
     mapUnderscoreToCamelCase: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 server:
   port: 8080
   servlet:
     context-path: /forum
+logging:
+  level:
+    root: info
+    top.rainbowcat: debug
+
+rainbowcat:
+  favorite:
+    # 默认收藏夹id
+    id: 1

@@ -1,5 +1,6 @@
 package top.rainbowcat.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,9 +8,12 @@ import top.rainbowcat.entity.UserProfile;
 import top.rainbowcat.mapper.UserProfileMapper;
 import top.rainbowcat.service.UserProfileService;
 
+/**
+ * @author wangxiao
+ */
 @Service
-@Transactional
-public class UserProfileServiceImpl implements UserProfileService {
+@Transactional(rollbackFor = Exception.class)
+public class UserProfileServiceImpl extends ServiceImpl<UserProfileMapper, UserProfile> implements UserProfileService {
 
     @Autowired
     UserProfileMapper userProfileMapper;
@@ -20,12 +24,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfile getUserProfileById(int id) {
-        return userProfileMapper.getUserProfileById(id);
+    public UserProfile getUserProfileById(String id) {
+        return userProfileMapper.selectById(id);
     }
-
-//    @Override
-//    public UserProfile getAuthorProfileById(int id) {
-//        return userProfileMapper.getAuthorProfileById(id);
-//    }
 }

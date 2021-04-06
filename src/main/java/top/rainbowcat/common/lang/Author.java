@@ -7,16 +7,20 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
+/**
+ * 作者信息
+ * @author wangxiao
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
 public class Author implements Serializable {
 
-    private int id;//用户id
+    private String id;
     private String nickname;
-    private String avatar;
-    private int likes;
+//    private String avatar;
+    private int articles;
     private int attention;
     private int collect;
     private int fans;

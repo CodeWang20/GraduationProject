@@ -1,6 +1,8 @@
 package top.rainbowcat.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,15 @@ import top.rainbowcat.service.FavoritesService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author wangxiao
+ */
 @RestController
 @RequestMapping("/favorites")
 public class FavoritesController {
+
+    @Value("${rainbowcat.favorite.id}")
+    private String DEFAULT_FAVORITE_ID;
 
     @Autowired
     FavoritesService favoritesService;
@@ -32,28 +40,33 @@ public class FavoritesController {
      * @param userId 用户ID
      */
     @GetMapping("/articles")
-    public Result getArticleByFav(int favId, int userId){
+    public Result getArticleByFav(String favId, String userId){
         try {
             List<Collect> collects = collectService.getCollectionsByFavIdAndUserId(favId, userId);
-            ArrayList<Article> articles = new ArrayList<>();
-            collects.forEach(collect -> {
-                articles.add(articleService.getDetailById(collect.getArticleId()));
+            ArrayList<Object> articleIds = new ArrayList<>();
+            collects.forEach(item -> {
+                articleIds.add(item.getArticleId());
             });
-            return Result.succ(articles);
+            System.out.println("发偶佛啊活佛啊合法化" + articleIds);
+            if (articleIds.size() > 0) {
+                List<Article> articleList = articleService.selectArticleByIds(articleIds);
+                return Result.succ(articleList);
+            }
+            return Result.succ(null);
         }catch (HttpMessageNotReadableException e){
             throw e;
         }
     }
 
     /**
-     * 获取用户收藏夹列表
+     * 根据userId获取用户收藏夹列表
+     * @param userId 用户id
+     * @return 该用户的收藏夹列表
      */
     @GetMapping("/favorite")
-    public Result favorites(int userId){
-        List<Collect> collects = collectService.getFavIdByUserId(userId);
-        ArrayList<Favorites> list = new ArrayList<>();
-        collects.forEach(collect -> list.add(favoritesService.getFavByFavId(collect.getFavId())));
-        return Result.succ(list);
+    public Result favorites(String userId){
+        List<Favorites> favoritesList = favoritesService.selectFavoritesByUserId(userId);
+        return Result.succ(favoritesList);
     }
 
     /**
@@ -76,11 +89,17 @@ public class FavoritesController {
 
     /**
      * 根据id删除收藏夹（实际上需要：将其中的文章移入默认收藏夹）
+     * @param id 将要被删除的收藏夹id
      */
     @RequestMapping("/delete")
-    public Result delFavorites(int id){
+    public Result delFavorites(String id, String userId){
         try {
-            collectService.changeFavId(id);
+            UpdateWrapper<Collect> wrapper = new UpdateWrapper<>();
+            wrapper.lambda()
+                    .set(Collect::getFavId, DEFAULT_FAVORITE_ID)
+                    .eq(Collect::getUserId, userId)
+                    .eq(Collect::getFavId, id);
+            collectService.update(wrapper);
             favoritesService.delFavorites(id);
             return Result.succ(null);
         }catch (Exception e){
@@ -91,25 +110,36 @@ public class FavoritesController {
 
     /**
      * 更改收藏夹名称
+     * @param favorites 当前要修改的收藏夹信息
      */
     @PostMapping("/updateType")
     public Result updateType(@RequestBody Favorites favorites){
         try {
-            favoritesService.updateType(favorites);
+            UpdateWrapper<Favorites> wrapper = new UpdateWrapper<>();
+            wrapper.lambda()
+                    .set(Favorites::getType, favorites.getType())
+                    .eq(Favorites::getId, favorites.getId());
+            favoritesService.update(wrapper);
             return Result.succ("更新完成！");
         }catch (Exception e) {
             e.printStackTrace();
             return Result.succ("更新失败！");
         }
     }
+
     /**
-     * 更改可见性为私密
+     * 更改可见性
+     *      采用取模的方式，保证该字段只有0和1两种状态
+     * @param favorites 当前要修改的收藏夹信息
      */
     @PostMapping("/visibility")
     public Result visibility(@RequestBody Favorites favorites){
         try {
-            favorites.setVisibility((favorites.getVisibility() + 1) % 2);
-            favoritesService.visibility(favorites);
+            UpdateWrapper<Favorites> wrapper = new UpdateWrapper<>();
+            wrapper.lambda()
+                    .set(Favorites::getVisibility,(favorites.getVisibility() + 1) % 2)
+                    .eq(Favorites::getId, favorites.getId());
+            favoritesService.update(wrapper);
             return Result.succ(null);
         }catch (Exception e){
             e.printStackTrace();

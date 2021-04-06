@@ -30,7 +30,4 @@
         </set>
         where id = #{id}
     </update>
-    <select id="getUserProfileById" parameterType="int" resultType="top.rainbowcat.entity.UserProfile">
-        select * from user_profile where id = #{id};
-    </select>
 </mapper>

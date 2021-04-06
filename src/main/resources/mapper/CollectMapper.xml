@@ -2,28 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.rainbowcat.mapper.CollectMapper">
 
-    <insert id="add" parameterType="top.rainbowcat.entity.Collect" keyProperty="id">
-        insert into collect (user_id, article_id, fav_id) values (#{userId}, #{articleId}, #{favId});
-    </insert>
-    <delete id="delete" parameterType="top.rainbowcat.entity.Collect">
-        delete from collect where user_id = #{userId} and article_id = #{articleId}
-    </delete>
-    <select id="getByUserIdAndArticleId" parameterType="top.rainbowcat.entity.Collect" resultType="top.rainbowcat.entity.Collect">
-        select * from collect where user_id = #{userId} and article_id = #{articleId};
-    </select>
-    <select id="getCollections" parameterType="int" resultType="java.lang.Integer">
-        select count(*) from collect where article_id = #{articleId}
-    </select>
-    <select id="collection" parameterType="int" resultType="top.rainbowcat.entity.Collect">
-        select * from collect where user_id = #{userId} and fav_id = #{favId};
-    </select>
-    <select id="getCollectionsByFavIdAndUserId" resultType="top.rainbowcat.entity.Collect">
-        select * from collect where fav_id = #{favId} and user_id = #{userId};
-    </select>
-    <select id="getFavIdByUserId" parameterType="int" resultType="top.rainbowcat.entity.Collect">
-        select * from collect where user_id = #{userId} group by fav_id;
-    </select>
-    <update id="changeFavId" parameterType="int">
-        update collect set fav_id = 1 where fav_id = #{favId};
-    </update>
 </mapper>

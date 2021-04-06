@@ -1,13 +1,13 @@
 package top.rainbowcat.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.rainbowcat.entity.UserProfile;
 
-public interface UserProfileMapper {
+/**
+ * @author wangxiao
+ */
+public interface UserProfileMapper extends BaseMapper<UserProfile> {
 
     int updateProfile(UserProfile userProfile);
-
-    UserProfile getUserProfileById(int id);
-
-//    UserProfile getAuthorProfileById(int id);
 }
 

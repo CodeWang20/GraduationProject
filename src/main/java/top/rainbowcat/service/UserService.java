@@ -1,20 +1,30 @@
 package top.rainbowcat.service;
 
-import top.rainbowcat.common.lang.Author;
+import com.baomidou.mybatisplus.extension.service.IService;
 import top.rainbowcat.entity.User;
 
 
-public interface UserService {
+/**
+ * @author wangxiao
+ */
+public interface UserService extends IService<User> {
 
-    User login(User user);
-
+    /**
+     * 用户注册
+     * @param user 用户信息
+     */
     void register(User user);
 
+    /**
+     * 根据用户名查询用户是否存在
+     * @param username 用户名（登录帐号）
+     * @return 用户信息（登陆用）
+     */
     User findByUserName(String username);
 
-    void setLastLogin(User user);
-
-    User getUserInfoById(int id);
-
-    User getAuthorInfoById(int id);
+    /**
+     * 用户登陆，更新上次登陆时间
+     * @param user 当前登陆的用户信息
+     */
+    void updateLastLogin(User user);
 }

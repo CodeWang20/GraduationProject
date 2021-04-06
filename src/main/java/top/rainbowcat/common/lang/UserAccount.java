@@ -8,15 +8,18 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author wangxiao
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
 public class UserAccount implements Serializable {
 
-    private int id;
+    private String id;
     private String username;
     private Date created;
-    private Date last_login;
+    private Date lastLogin;
     private int status;
 }

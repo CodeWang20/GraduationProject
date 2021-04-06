@@ -1,42 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.rainbowcat.mapper.ArticleMapper">
-    <insert id="addArticle" parameterType="top.rainbowcat.entity.Article">
-        insert into article (title, summary, content, user_id, plate_id, created)
-        values (#{title}, #{summary}, #{content}, #{userId}, #{plateId}, #{created});
-    </insert>
-
-    <update id="addViews" parameterType="int">
+    <update id="addViews" parameterType="string">
         update article set now_view = now_view+1  WHERE (id = #{id});
     </update>
-    <update parameterType="top.rainbowcat.entity.Article" id="updateArticle" keyProperty="id">
-        update article  set title = #{title}, summary = #{summary}, content = #{content}, last_update = #{lastUpdate} where id = #{id};
-    </update>
-    <delete id="delete" parameterType="int">
-        delete from article where id = #{id}
-    </delete>
 
-    <!--查询热门文章，用于首页文章列表初始化-->
-    <select id="getHotArticle" resultType="top.rainbowcat.entity.Article">
---         select * from article where (now_view - yes_view) > 5 limit 0, 10;
-        select * from article limit 0, 10;
-    </select>
 
-    <select id="getLikesByArticleId" parameterType="int" resultType="int">
-        select count(l.id) from article a
-        left join likes l on a.id=l.article_id
-        where a.id=#{id};
-    </select>
-    <select id="getDetailById" parameterType="int" resultType="top.rainbowcat.entity.Article">
-        select * from article where id = #{id}
-    </select>
-    <select id="selfBlogsList" resultType="top.rainbowcat.entity.Article">
+    <select id="getBlogsBuUserId" parameterType="string" resultType="top.rainbowcat.entity.Article">
         select * from article where user_id = #{userId}
-        order by created desc
-        limit #{start}, #{pageSize};
-    </select>
-
-    <select id="selfBlogsCount" resultType="int">
-        select count(*) from article where user_id = #{userId}
     </select>
 </mapper>

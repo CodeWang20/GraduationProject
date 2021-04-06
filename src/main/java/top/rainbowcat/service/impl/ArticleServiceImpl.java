@@ -1,66 +1,77 @@
 package top.rainbowcat.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.rainbowcat.common.lang.PageBean;
 import top.rainbowcat.entity.Article;
 import top.rainbowcat.mapper.ArticleMapper;
 import top.rainbowcat.service.ArticleService;
 
 import java.util.List;
 
+/**
+ * @author wangxiao
+ */
 @Service
-@Transactional
-public class ArticleServiceImpl implements ArticleService {
+@Transactional(rollbackFor = Exception.class)
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Autowired
     ArticleMapper articleMapper;
 
     @Override
     public List<Article> popularArticles() {
-        return articleMapper.getHotArticle();
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.lambda()
+                .orderByDesc(Article::getNowView)
+                .apply("TO_DAYS(now())-TO_DAYS(created) < 30")
+//                .apply("TO_DAYS(created) = TO_DAYS(NOW())")
+                .last("limit 10");
+        return articleMapper.selectList(wrapper);
     }
 
     @Override
-    public int getLikesByArticleId(int id) {
-        return articleMapper.getLikesByArticleId(id);
+    public Article getDetailById(String id) {
+        return articleMapper.selectById(id);
     }
 
     @Override
-    public Article getDetailById(int id) {
-        return articleMapper.getDetailById(id);
-    }
-
-    @Override
-    public void addViews(int id) {
+    public void addViews(String id) {
         articleMapper.addViews(id);
     }
 
     @Override
     public void addArticle(Article article) {
-        articleMapper.addArticle(article);
-    }
-
-    @Override
-    public void updateArticle(Article article) {
-        articleMapper.updateArticle(article);
+        articleMapper.insert(article);
     }
 
 
     @Override
-    public List<Article> selfBlogsList(int userId, int currentPage, int pageSize) {
-        int start = (currentPage - 1) * pageSize;
-        return articleMapper.selfBlogsList(userId, start, pageSize);
-    }
-    @Override
-    public int selfBlogsCount(int userId) {
-        return articleMapper.selfBlogsCount(userId);
+    public IPage<Article> selfBlogsByUserId(IPage<Article> iPage, String userId) {
+        return articleMapper.getBlogsBuUserId(iPage, userId);
     }
 
     @Override
-    public void deleteBlog(int id) {
-        articleMapper.delete(id);
+    public List<Article> selectArticleByIds(List<Object> articleIds) {
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.lambda().in(Article::getId, articleIds);
+        return articleMapper.selectList(wrapper);
+    }
+
+    @Override
+    public int getArticleNumByUserId(String userId) {
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(Article::getUserId, userId);
+        return articleMapper.selectCount(wrapper);
+    }
+
+
+    @Override
+    public void deleteBlog(String id) {
+        articleMapper.deleteById(id);
     }
 
 }

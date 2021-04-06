@@ -2,25 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.rainbowcat.mapper.FavoritesMapper">
 
-    <insert id="add" parameterType="top.rainbowcat.entity.Favorites">
-        insert into favorites (type, visibility) values (#{type}, #{visibility});
-    </insert>
-    <update id="updateVisibility" parameterType="top.rainbowcat.entity.Favorites">
-        update favorites set visibility = #{visibility} where id = #{id}
-    </update>
-    <delete parameterType="int" id="delFavorites">
-        delete from favorites where id = #{id}
-    </delete>
-    <select id="getFavByUserId" parameterType="int" resultType="top.rainbowcat.entity.Favorites">
-        select * from favorites where (select fav_id from collect where user_id = #{userid});
-    </select>
-    <select id="getFavByType" parameterType="string" resultType="top.rainbowcat.entity.Favorites">
-        select * from favorites where type = #{type};
-    </select>
-    <select id="getFavByFavId" parameterType="int" resultType="top.rainbowcat.entity.Favorites">
-        select * from favorites where id = #{favId};
-    </select>
-    <update id="updateType" parameterType="top.rainbowcat.entity.Favorites">
-        update favorites set type = #{type} where id = #{id}
-    </update>
 </mapper>

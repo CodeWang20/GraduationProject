@@ -1,20 +1,11 @@
 package top.rainbowcat.mapper;
 
-import top.rainbowcat.common.lang.Author;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import top.rainbowcat.entity.User;
 
-public interface UserMapper {
-
-    User login(User user);
-
-    void save(User user);
-
-    User findByUserName(String username);
-
-    void setLastLogin(User user);
-
-    User getUserInfoById(int id);
-
-    User getAuthorInfoById(int id);
+/**
+ * @author wangxiao
+ */
+public interface UserMapper extends BaseMapper<User> {
 }
 

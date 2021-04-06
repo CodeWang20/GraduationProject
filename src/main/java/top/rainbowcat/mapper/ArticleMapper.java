@@ -1,24 +1,21 @@
 package top.rainbowcat.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import top.rainbowcat.entity.Article;
 
-import java.util.List;
+/**
+ * @author wangxiao
+ */
+public interface ArticleMapper extends BaseMapper<Article> {
 
-public interface ArticleMapper {
-    List<Article> getHotArticle();
+    void addViews(String id);
 
-    int getLikesByArticleId(int id);
-
-    Article getDetailById(int id);
-
-    void addViews(int id);
-
-    void addArticle(Article article);
-
-    List<Article> selfBlogsList(int userId, int start, int pageSize);
-    int selfBlogsCount(int userId);
-
-    void delete(int id);
-
-    void updateArticle(Article article);
+    /**
+     * 根据用户id分页查询用户的文章list
+     * @param iPage MP分页插件对象
+     * @param userId 用户id
+     * @return 该用户的文章列表
+     */
+    IPage<Article> getBlogsBuUserId(IPage<Article> iPage, String userId);
 }

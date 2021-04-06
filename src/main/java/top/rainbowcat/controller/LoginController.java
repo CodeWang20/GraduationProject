@@ -18,12 +18,13 @@ import top.rainbowcat.common.lang.UserAccount;
 import top.rainbowcat.entity.User;
 import top.rainbowcat.service.UserService;
 import top.rainbowcat.utils.JwtUtils;
-import top.rainbowcat.utils.SystemDateUtils;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * @author wangxiao
+ */
 @Slf4j
 @RestController
 public class LoginController {
@@ -43,8 +44,7 @@ public class LoginController {
         if (!user.getPassword().equals(md5Hash.toHex())){
             return Result.fail("密码错误！");
         }
-        user.setLast_login(SystemDateUtils.getDaDate());
-        userService.setLastLogin(user);
+        userService.updateLastLogin(user);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("username", user.getUsername());
@@ -60,6 +60,10 @@ public class LoginController {
         return Result.succ("登录成功！", map1);
     }
 
+    /**
+     * 用户注册
+     * @param user 用户信息
+     */
     @PostMapping("/register")
     public Result register(@RequestBody User user){
         User u = userService.findByUserName(user.getUsername());
