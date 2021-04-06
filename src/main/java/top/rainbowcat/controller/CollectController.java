@@ -71,7 +71,6 @@ public class CollectController {
      */
     @GetMapping("/cancelCollect")
     public Result cancelCollect(Collect collect){
-        System.out.println(collect);
         try {
             collectService.cancelCollect(collect);
             return Result.succ("取消收藏成功！", null);

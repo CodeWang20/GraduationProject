@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.rainbowcat.common.lang.Result;
@@ -78,5 +78,12 @@ public class GlobalExceptionHandler {
     public Result handler(HttpMessageNotReadableException e){
         log.error("Http消息不可读异常------------------->", e);
         return Result.fail("非法请求参数！");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+    public Result handler(HttpRequestMethodNotSupportedException e){
+        log.error("Http请求类型不支持异常------------------->", e);
+        return Result.fail(405, "错误的请求方式！");
     }
 }

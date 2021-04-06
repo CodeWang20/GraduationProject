@@ -1,6 +1,6 @@
 package top.rainbowcat.controller;
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -94,9 +94,8 @@ public class FavoritesController {
     @RequestMapping("/delete")
     public Result delFavorites(String id, String userId){
         try {
-            UpdateWrapper<Collect> wrapper = new UpdateWrapper<>();
-            wrapper.lambda()
-                    .set(Collect::getFavId, DEFAULT_FAVORITE_ID)
+            LambdaUpdateWrapper<Collect> wrapper = new LambdaUpdateWrapper<>();
+            wrapper.set(Collect::getFavId, DEFAULT_FAVORITE_ID)
                     .eq(Collect::getUserId, userId)
                     .eq(Collect::getFavId, id);
             collectService.update(wrapper);
@@ -115,9 +114,8 @@ public class FavoritesController {
     @PostMapping("/updateType")
     public Result updateType(@RequestBody Favorites favorites){
         try {
-            UpdateWrapper<Favorites> wrapper = new UpdateWrapper<>();
-            wrapper.lambda()
-                    .set(Favorites::getType, favorites.getType())
+            LambdaUpdateWrapper<Favorites> wrapper = new LambdaUpdateWrapper<>();
+            wrapper.set(Favorites::getType, favorites.getType())
                     .eq(Favorites::getId, favorites.getId());
             favoritesService.update(wrapper);
             return Result.succ("更新完成！");
@@ -135,9 +133,8 @@ public class FavoritesController {
     @PostMapping("/visibility")
     public Result visibility(@RequestBody Favorites favorites){
         try {
-            UpdateWrapper<Favorites> wrapper = new UpdateWrapper<>();
-            wrapper.lambda()
-                    .set(Favorites::getVisibility,(favorites.getVisibility() + 1) % 2)
+            LambdaUpdateWrapper<Favorites> wrapper = new LambdaUpdateWrapper<>();
+            wrapper.set(Favorites::getVisibility,(favorites.getVisibility() + 1) % 2)
                     .eq(Favorites::getId, favorites.getId());
             favoritesService.update(wrapper);
             return Result.succ(null);

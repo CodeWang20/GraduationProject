@@ -1,6 +1,6 @@
 package top.rainbowcat.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,16 +33,15 @@ public class FavoritesServiceImpl extends ServiceImpl<FavoritesMapper, Favorites
 
     @Override
     public Favorites isExist(String type) {
-        QueryWrapper<Favorites> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(Favorites::getType, type);
+        LambdaQueryWrapper<Favorites> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Favorites::getType, type);
         return favoritesMapper.selectOne(wrapper);
     }
 
     @Override
     public List<Favorites> selectFavoritesByUserId(String userId) {
-        QueryWrapper<Favorites> wrapper = new QueryWrapper<>();
-        wrapper.lambda()
-                .eq(Favorites::getUserId, userId)
+        LambdaQueryWrapper<Favorites> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Favorites::getUserId, userId)
                 .orderByAsc(Favorites::getId);
         return favoritesMapper.selectList(wrapper);
     }

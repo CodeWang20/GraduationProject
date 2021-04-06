@@ -1,8 +1,8 @@
 package top.rainbowcat.controller;
 
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +68,12 @@ public class UserProfileController {
         Author author = new Author();
         try {
             UserProfile userProfile = userProfileService.getUserProfileById(id);
-            BeanUtils.copyProperties(userProfile, author);
+            if (ObjectUtils.isEmpty(userProfile)){
+                return Result.fail(404, "");
+            }
+            author.setId(userProfile.getId());
+            author.setNickname(userProfile.getNickname());
+            author.setAvatar(userProfile.getAvatar());
             //文章数量
             author.setArticles(articleService.getArticleNumByUserId(id));
             //收藏文章数量

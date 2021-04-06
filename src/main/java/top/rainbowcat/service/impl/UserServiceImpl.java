@@ -1,7 +1,7 @@
 package top.rainbowcat.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +36,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User findByUserName(String username) {
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(User::getUsername, username);
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUsername, username);
         return userMapper.selectOne(wrapper);
     }
 
     @Override
     public void updateLastLogin(User user) {
-        UpdateWrapper<User> wrapper = new UpdateWrapper<>();
-        wrapper.lambda()
-                .set(User::getLastLogin, new Date())
+        LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.set(User::getLastLogin, new Date())
                 .eq(User::getUsername,user.getUsername());
         userMapper.update(user, wrapper);
     }

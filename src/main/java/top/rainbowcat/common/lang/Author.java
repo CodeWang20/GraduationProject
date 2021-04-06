@@ -19,7 +19,7 @@ public class Author implements Serializable {
 
     private String id;
     private String nickname;
-//    private String avatar;
+    private String avatar;
     private int articles;
     private int attention;
     private int collect;

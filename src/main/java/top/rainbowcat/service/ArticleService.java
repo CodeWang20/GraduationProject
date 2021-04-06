@@ -11,9 +11,6 @@ import java.util.List;
  */
 public interface ArticleService extends IService<Article> {
 
-
-    void addViews(String id);
-
     /**
      * 获取首页最新热门文章
      * @return 当天最新热门文章浏览量前十的文章

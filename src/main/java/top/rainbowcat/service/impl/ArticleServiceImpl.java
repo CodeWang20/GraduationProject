@@ -1,6 +1,6 @@
 package top.rainbowcat.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<Article> popularArticles() {
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.lambda()
-                .orderByDesc(Article::getNowView)
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        wrapper.orderByDesc(Article::getNowView)
                 .apply("TO_DAYS(now())-TO_DAYS(created) < 30")
 //                .apply("TO_DAYS(created) = TO_DAYS(NOW())")
                 .last("limit 10");
@@ -38,10 +37,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleMapper.selectById(id);
     }
 
-    @Override
-    public void addViews(String id) {
-        articleMapper.addViews(id);
-    }
 
     @Override
     public void addArticle(Article article) {
@@ -56,15 +51,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public List<Article> selectArticleByIds(List<Object> articleIds) {
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.lambda().in(Article::getId, articleIds);
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(Article::getId, articleIds);
         return articleMapper.selectList(wrapper);
     }
 
     @Override
     public int getArticleNumByUserId(String userId) {
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(Article::getUserId, userId);
+        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Article::getUserId, userId);
         return articleMapper.selectCount(wrapper);
     }
 

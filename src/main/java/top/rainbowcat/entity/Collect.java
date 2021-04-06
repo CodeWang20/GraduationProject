@@ -32,7 +32,7 @@ public class Collect extends Model<Collect> implements Serializable {
     /**
      * 当前收藏用户id
      */
-    @TableField(value = "")
+    @TableField(value = "user_id")
     private String userId;
 
     /**
@@ -44,7 +44,7 @@ public class Collect extends Model<Collect> implements Serializable {
     /**
      * 所属收藏夹id
      */
-    @TableField(value = "")
+    @TableField(value = "fav_id")
     private String favId;
 
     @TableField(exist = false)

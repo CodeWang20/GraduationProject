@@ -1,8 +1,10 @@
 package top.rainbowcat.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import top.rainbowcat.common.lang.Result;
 import top.rainbowcat.entity.Article;
@@ -96,18 +98,25 @@ public class ArticleController {
      * @return 当前文章的相关数据
      */
     @GetMapping("/detail")
+//    @RequestMapping("/detail")
     public Result detail(String id){
         Article detail = articleService.getDetailById(id);
-        if (detail != null){
+        if (!ObjectUtils.isEmpty(detail)){
             detail.setCollect(collectService.getCollections(id));
             return Result.succ(detail);
         }
         return Result.fail(404, "该文章已被删除！",null);
     }
 
+    /**
+     * 更新浏览量
+     * @param id 文章id
+     */
     @GetMapping("/updateViews")
     public Result updateViews(String id){
-        articleService.addViews(id);
+        LambdaUpdateWrapper<Article> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.setSql("now_view = now_view+1").eq(Article::getId, id);
+        articleService.update(wrapper);
         return Result.succ(null);
     }
 }

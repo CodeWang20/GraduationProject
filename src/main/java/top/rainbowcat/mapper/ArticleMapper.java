@@ -9,8 +9,6 @@ import top.rainbowcat.entity.Article;
  */
 public interface ArticleMapper extends BaseMapper<Article> {
 
-    void addViews(String id);
-
     /**
      * 根据用户id分页查询用户的文章list
      * @param iPage MP分页插件对象
